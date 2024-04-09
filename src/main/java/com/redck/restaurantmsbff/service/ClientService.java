@@ -1,8 +1,8 @@
 package com.redck.restaurantmsbff.service;
 
-import com.redck.restaurantmsbff.domain.User;
+import com.redck.restaurantmsbff.domain.Client;
 import com.redck.restaurantmsbff.logging.enumeration.LogTag;
-import com.redck.restaurantmsbff.repository.UserRepository;
+import com.redck.restaurantmsbff.repository.ClientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -14,55 +14,55 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserService
+public class ClientService
 {
 
     private static final String DEFAULT_PICTURE = null;
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClientService.class);
 
-    private final UserRepository userRepository;
+    private final ClientRepository clientRepository;
 
     @Autowired
-    public UserService(final UserRepository userRepository)
+    public ClientService(final ClientRepository clientRepository)
     {
-        this.userRepository = userRepository;
+        this.clientRepository = clientRepository;
     }
 
 
     /**
      * Create User.
-     * @param user user.
+     * @param client user.
      * @return User created.
      */
-    public User createUser(final User user)
+    public Client createUser(final Client client)
     {
-        final Optional<User> userOptional = userRepository.findByUid(user.getUid());
+        final Optional<Client> userOptional = clientRepository.findByUid(client.getUid());
 
         if(userOptional.isEmpty())
         {
             logger.info(MDC.get("correlationId"), Arrays.asList(LogTag.USERS, LogTag.PERSISTED),
-                    "Create User: " + user.toString());
+                    "Create User: " + client.toString());
 
-            user.uid(UUID.randomUUID().toString());
-            final User userBuild = buildUserInfo(user);
-            return userRepository.save(userBuild);
+            client.uid(UUID.randomUUID().toString());
+            final Client clientBuild = buildUserInfo(client);
+            return clientRepository.save(clientBuild);
         }
         throw new NullPointerException("User already exists!!");
     }
 
-    private User buildUserInfo(final User user)
+    private Client buildUserInfo(final Client client)
     {
-        if(user.getPicture().isEmpty())
+        if(client.getPicture().isEmpty())
         {
-            user.picture(DEFAULT_PICTURE);
+            client.picture(DEFAULT_PICTURE);
         }
 
-        if(user.getName().isEmpty())
+        if(client.getName().isEmpty())
         {
-            user.name(user.getUsername());
+            client.name(client.getUsername());
         }
 
-        return user;
+        return client;
     }
 
     /**
@@ -70,9 +70,9 @@ public class UserService
      * @param userId user Id.
      * @return User object.
      */
-    public User getUser(final String userId)
+    public Client getUser(final String userId)
     {
-        final Optional<User> userOptional = getUserById(userId, "User does not exists!!");
+        final Optional<Client> userOptional = getUserById(userId, "User does not exists!!");
 
         logger.info(MDC.get("correlationId"), Arrays.asList(LogTag.USERS, LogTag.RETRIEVED),
                 "Get User by id:" + userId + ": " + userOptional.get().toString());
@@ -84,24 +84,24 @@ public class UserService
     /**
      * Edit user by id.
      * @param userId user id to edit.
-     * @param userToEdit new user data.
+     * @param clientToEdit new user data.
      * @return User with user info edited.
      */
-    public User editUser(final String userId, final User userToEdit)
+    public Client editUser(final String userId, final Client clientToEdit)
     {
-        final Optional<User> userOptional = getUserById(userId, "User to be edited does not exists!!");
+        final Optional<Client> userOptional = getUserById(userId, "User to be edited does not exists!!");
 
         logger.info(MDC.get("correlationId"),  Arrays.asList(LogTag.USERS, LogTag.EDITED),
                 "Edit User by id " + userId);
 
         userOptional.get()
-                .username(userToEdit.getUsername())
-                .email(userToEdit.getEmail())
-                .password(userToEdit.getPassword())
-                .name(userToEdit.getName())
-                .picture(userToEdit.getPicture());
+                .username(clientToEdit.getUsername())
+                .email(clientToEdit.getEmail())
+                .password(clientToEdit.getPassword())
+                .name(clientToEdit.getName())
+                .picture(clientToEdit.getPicture());
 
-        return userRepository.save(userOptional.get());
+        return clientRepository.save(userOptional.get());
     }
 
     /**
@@ -111,9 +111,9 @@ public class UserService
      */
     public String deleteUser(final String userId)
     {
-        final Optional<User> userOptional = getUserById(userId, "User to be deleted does not exists!!");
+        final Optional<Client> userOptional = getUserById(userId, "User to be deleted does not exists!!");
 
-        userRepository.delete(userOptional.get());
+        clientRepository.delete(userOptional.get());
 
         logger.info(MDC.get("correlationId"), Arrays.asList(LogTag.USERS, LogTag.DELETED),
                 "Delete User by id: " + userId);
@@ -127,9 +127,9 @@ public class UserService
      * @param exceptionMessage exception Message
      * @return Optional of User
      */
-    private Optional<User> getUserById(final String userId, final String exceptionMessage)
+    private Optional<Client> getUserById(final String userId, final String exceptionMessage)
     {
-        final Optional<User> userOptional = userRepository.findByUid(userId);
+        final Optional<Client> userOptional = clientRepository.findByUid(userId);
         if(userOptional.isEmpty())
         {
             throw new NullPointerException(exceptionMessage);

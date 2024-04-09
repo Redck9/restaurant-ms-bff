@@ -1,10 +1,10 @@
-/**package com.redck.restaurantmsbff.service;
+package com.redck.restaurantmsbff.service;
 
 import com.redck.restaurantmsbff.config.JwtTokenProvider;
-import com.redck.restaurantmsbff.domain.User;
+import com.redck.restaurantmsbff.domain.Client;
 import com.redck.restaurantmsbff.logging.UserNotFoundException;
 import com.redck.restaurantmsbff.logging.enumeration.LogTag;
-import com.redck.restaurantmsbff.repository.UserRepository;
+import com.redck.restaurantmsbff.repository.ClientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -18,15 +18,15 @@ import java.util.Optional;
 @Service
 public class AuthenticationService
 {
-    private final UserRepository userRepository;
+    private final ClientRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClientService.class);
 
     @Autowired
-    public AuthenticationService(final UserRepository userRepository,
+    public AuthenticationService(final ClientRepository userRepository,
                                  final BCryptPasswordEncoder passwordEncoder,
                                  final JwtTokenProvider jwtTokenProvider)
     {
@@ -37,7 +37,7 @@ public class AuthenticationService
 
     public String authenticate(final String username, final String password)
     {
-        final Optional<User> userOptional = userRepository.findByUsername(username);
+        final Optional<Client> userOptional = userRepository.findByUsername(username);
 
         if(userOptional.isEmpty())
         {
@@ -55,4 +55,4 @@ public class AuthenticationService
 
         return jwtTokenProvider.generateToken(username);
     }
-}*/
+}

@@ -1,13 +1,18 @@
 package com.redck.restaurantmsbff.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.*;
+//import javax.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "user")
-public class User
+//@Table(name = "clients")
+public class Client
 {
 
     @Id
@@ -49,7 +54,7 @@ public class User
      * @param id id to build.
      * @return user with id.
      */
-    public User id(final long id){
+    public Client id(final long id){
         this.id = id;
         return this;
     }
@@ -77,7 +82,7 @@ public class User
      * @param uid uid
      * @return user uid
      */
-    public User uid(final String uid)
+    public Client uid(final String uid)
     {
         this.uid = uid;
         return this;
@@ -106,7 +111,7 @@ public class User
      * @param username username
      * @return user username
      */
-    public User username(final String username)
+    public Client username(final String username)
     {
         this.username = username;
         return this;
@@ -135,7 +140,7 @@ public class User
      * @param picture picture
      * @return user picture
      */
-    public User picture(final String picture)
+    public Client picture(final String picture)
     {
         this.picture = picture;
         return this;
@@ -164,7 +169,7 @@ public class User
      * @param name name
      * @return user name
      */
-    public User name(final String name)
+    public Client name(final String name)
     {
         this.name = name;
         return this;
@@ -193,7 +198,7 @@ public class User
      * @param email email
      * @return user email
      */
-    public User email(final String email)
+    public Client email(final String email)
     {
         this.email = email;
         return this;
@@ -230,7 +235,7 @@ public class User
      * @param password password
      * @return user password
      */
-    public User password(final String password)
+    public Client password(final String password)
     {
         this.password = password;
         return this;
@@ -239,7 +244,7 @@ public class User
     @Override
     public String toString()
     {
-        return "User {" +
+        return "Client {" +
                 "id = " + id +
                 ", username = " + username +
                 ", email = " + email +

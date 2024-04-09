@@ -1,7 +1,6 @@
 package com.redck.restaurantmsbff.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.redck.restaurantmsbff.domain.User;
 
 import java.io.Serializable;
 
@@ -9,7 +8,10 @@ import java.io.Serializable;
  * User class.
  */
 
-public class UserDTO implements Serializable {
+public class ClientDTO implements Serializable {
+
+    @JsonProperty("id")
+    private Long id;
 
     @JsonProperty("uid")
     private String uid;
@@ -29,6 +31,31 @@ public class UserDTO implements Serializable {
     @JsonProperty("password")
     private String password;
 
+    /**
+     * User Get id.
+     * @return user id.
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * User Set id.
+     * @param id user id;
+     */
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Builder ClientDTO for id.
+     * @param id id to build.
+     * @return ClientDTO with id.
+     */
+    public ClientDTO id(final Long id){
+        this.id = id;
+        return this;
+    }
 
     /**
      * User Get uid.
@@ -47,11 +74,11 @@ public class UserDTO implements Serializable {
     }
 
     /**
-     * Builder UserDTO for uid.
+     * Builder ClientDTO for uid.
      * @param uid uid to build.
-     * @return UserDTO with uid.
+     * @return ClientDTO with uid.
      */
-    public UserDTO uid(final String uid){
+    public ClientDTO uid(final String uid){
         this.uid = uid;
         return this;
     }
@@ -78,7 +105,7 @@ public class UserDTO implements Serializable {
      * @param username username.
      * @return user username.
      */
-    public UserDTO username(final String username){
+    public ClientDTO username(final String username){
         this.username = username;
         return this;
     }
@@ -106,7 +133,7 @@ public class UserDTO implements Serializable {
      * @param picture picture
      * @return user picture
      */
-    public UserDTO picture(final String picture)
+    public ClientDTO picture(final String picture)
     {
         this.picture = picture;
         return this;
@@ -133,7 +160,7 @@ public class UserDTO implements Serializable {
      * @param name name.
      * @return user name.
      */
-    public UserDTO name(final String name){
+    public ClientDTO name(final String name){
         this.name = name;
         return this;
     }
@@ -159,7 +186,7 @@ public class UserDTO implements Serializable {
      * @param email email.
      * @return user email.
      */
-    public UserDTO email(final String email){
+    public ClientDTO email(final String email){
         this.email = email;
         return this;
     }
@@ -185,7 +212,7 @@ public class UserDTO implements Serializable {
      * @param password password.
      * @return user password.
      */
-    public UserDTO password(final String password){
+    public ClientDTO password(final String password){
         this.password = password;
         return this;
     }
