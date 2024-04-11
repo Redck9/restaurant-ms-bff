@@ -1,6 +1,7 @@
 package com.redck.restaurantmsbff.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.redck.restaurantmsbff.domain.Client;
 
 import java.io.Serializable;
 
@@ -18,6 +19,9 @@ public class ClientDTO implements Serializable {
 
     @JsonProperty("username")
     private String username;
+
+    @JsonProperty("role")
+    private String role;
 
     @JsonProperty("picture")
     private String picture;
@@ -107,6 +111,35 @@ public class ClientDTO implements Serializable {
      */
     public ClientDTO username(final String username){
         this.username = username;
+        return this;
+    }
+
+    /**
+     * User Get role
+     * @return role
+     */
+    public String getRole()
+    {
+        return role;
+    }
+
+    /**
+     * User Set role
+     * @param role user role
+     */
+    public void setRole(String role)
+    {
+        this.role = role;
+    }
+
+    /**
+     * Builder for role
+     * @param role role
+     * @return user role
+     */
+    public ClientDTO role(final String role)
+    {
+        this.role = role;
         return this;
     }
 
@@ -215,5 +248,18 @@ public class ClientDTO implements Serializable {
     public ClientDTO password(final String password){
         this.password = password;
         return this;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Client {" +
+                "id = " + id +
+                ", username = " + username +
+                ", email = " + email +
+                ", password = " + password +
+                ", name = " + name +
+                ", picture = " + picture +
+                " }";
     }
 }

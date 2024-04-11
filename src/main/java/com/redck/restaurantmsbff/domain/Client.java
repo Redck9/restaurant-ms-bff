@@ -27,6 +27,9 @@ public class Client
     @Column(name = "username", unique = true)
     private String username;
 
+    @Column(name = "role")
+    private String role;
+
 
     @Column(name = "email")
     private String email;
@@ -85,6 +88,35 @@ public class Client
     public Client uid(final String uid)
     {
         this.uid = uid;
+        return this;
+    }
+
+    /**
+     * User Get role
+     * @return role
+     */
+    public String getRole()
+    {
+        return role;
+    }
+
+    /**
+     * User Set role
+     * @param role user role
+     */
+    public void setRole(String role)
+    {
+        this.role = role;
+    }
+
+    /**
+     * Builder for role
+     * @param role role
+     * @return user role
+     */
+    public Client role(final String role)
+    {
+        this.role = role;
         return this;
     }
 
@@ -247,6 +279,7 @@ public class Client
         return "Client {" +
                 "id = " + id +
                 ", username = " + username +
+                ", role = " + role +
                 ", email = " + email +
                 ", password = " + password +
                 ", name = " + name +

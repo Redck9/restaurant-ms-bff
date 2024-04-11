@@ -19,7 +19,7 @@ repositories {
 dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-security:3.2.4")//N tinha versão
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	//implementation("org.springframework.data:spring-data-jpa:3.2.4")
 	implementation("org.mapstruct:mapstruct:1.5.5.Final")
@@ -32,7 +32,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-jdbc:2.5.3")
 	implementation("org.liquibase:liquibase-core:4.24.0")
 	//implementation("org.hibernate:hibernate-annotations:3.5.6-Final")
-	implementation("org.springframework.security:spring-security-config")
+	implementation("org.springframework.security:spring-security-config:6.1.2")
+	implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 }
 

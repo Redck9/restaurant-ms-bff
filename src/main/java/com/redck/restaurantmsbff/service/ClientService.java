@@ -17,7 +17,8 @@ import java.util.UUID;
 public class ClientService
 {
 
-    private static final String DEFAULT_PICTURE = null;
+    private static final String DEFAULT_PICTURE = "empty";
+    private static final String DEFAULT_ROLE = "USER";
     private static final Logger logger = LoggerFactory.getLogger(ClientService.class);
 
     private final ClientRepository clientRepository;
@@ -38,28 +39,40 @@ public class ClientService
     {
         final Optional<Client> userOptional = clientRepository.findByUid(client.getUid());
 
+        System.out.println("USER: " + userOptional.isEmpty());
         if(userOptional.isEmpty())
         {
             logger.info(MDC.get("correlationId"), Arrays.asList(LogTag.USERS, LogTag.PERSISTED),
                     "Create User: " + client.toString());
 
             client.uid(UUID.randomUUID().toString());
+            client.setPassword(client.getPassword());
             final Client clientBuild = buildUserInfo(client);
+            System.out.println("USER REGISTERED: " + clientBuild.toString());
             return clientRepository.save(clientBuild);
+
         }
         throw new NullPointerException("User already exists!!");
+
     }
 
     private Client buildUserInfo(final Client client)
     {
-        if(client.getPicture().isEmpty())
+        System.out.println("PICTURE AND NAME ARE EMPTY");
+
+        if(client.getPicture() == null)
         {
             client.picture(DEFAULT_PICTURE);
         }
 
-        if(client.getName().isEmpty())
+        if(client.getName() == null)
         {
             client.name(client.getUsername());
+        }
+
+        if(client.getRole() == null)
+        {
+            client.role(DEFAULT_ROLE);
         }
 
         return client;
@@ -130,6 +143,7 @@ public class ClientService
     private Optional<Client> getUserById(final String userId, final String exceptionMessage)
     {
         final Optional<Client> userOptional = clientRepository.findByUid(userId);
+        System.out.println("ESTA VAZIO: " + userOptional.isEmpty());
         if(userOptional.isEmpty())
         {
             throw new NullPointerException(exceptionMessage);

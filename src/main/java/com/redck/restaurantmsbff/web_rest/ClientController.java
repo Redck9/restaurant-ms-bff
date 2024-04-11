@@ -1,6 +1,7 @@
 package com.redck.restaurantmsbff.web_rest;
 
 
+import com.redck.restaurantmsbff.config.JwtTokenProvider;
 import com.redck.restaurantmsbff.logging.UserNotFoundException;
 import com.redck.restaurantmsbff.service.AuthenticationService;
 import com.redck.restaurantmsbff.service.ClientService;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -22,6 +24,7 @@ public class ClientController implements ApiController
 {
 
     private final AuthenticationService authenticationService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
 
@@ -34,25 +37,27 @@ public class ClientController implements ApiController
      * @param clientService User Service.
      * @param clientMapper  User mapper.
      */
-    public ClientController(final AuthenticationService authenticationService, final ClientService clientService, final ClientMapper clientMapper)
+    public ClientController(final AuthenticationService authenticationService, final ClientService clientService, final ClientMapper clientMapper, final JwtTokenProvider jwtTokenProvider)
     {
         this.authenticationService = authenticationService;
         this.clientService = clientService;
         this.clientMapper = clientMapper;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam("username") String username,
-                        @RequestParam("password") String password,
-                        HttpServletRequest request,
-                        HttpServletResponse response)
+    public ResponseEntity<String> login(@RequestBody final Authentication authentication)
     {
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
+        System.out.println("Username: " + authentication.getName());
+        System.out.println("Password: " + authentication.getCredentials().toString());
+
+        String name = authentication.getName();
+        String password =  authentication.getCredentials().toString();
 
         try {
-            String token = authenticationService.authenticate(username, password);
-
+            Authentication authenticated = authenticationService.authenticate(authentication);
+            System.out.println("AUTHENTICATED: " + authenticated.getAuthorities());
+            String token = generateToken(authenticated);
             // Authentication successful, return token or redirect to home page
             // For token-based authentication, you can return the token
             return ResponseEntity.ok(token);
@@ -66,8 +71,14 @@ public class ClientController implements ApiController
 
     }
 
+    private String generateToken(Authentication authentication)
+    {
+        return jwtTokenProvider.generateToken(authentication.getName());
+    }
+
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody final ClientDTO  clientDTO) {
+        System.out.println("client: " + clientDTO.toString());
         try {
             clientService.createUser(clientMapper.mapClientDTOToClient(clientDTO));
             return ResponseEntity.ok("User registered successfully");
