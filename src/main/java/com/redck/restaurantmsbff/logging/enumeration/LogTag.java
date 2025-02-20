@@ -5,5 +5,8 @@ public enum LogTag {
     RETRIEVED,
     PERSISTED,
     DELETED,
-    EDITED
+    EDITED,
+    CLIENT,
+    RESTAURANTS,
+    TABLES
 }

@@ -13,6 +13,7 @@ public interface ClientRepository extends JpaRepository<Client, Long>
     Optional<Client> findByUid(final String uid);
 
     Optional<Client> findByUsername(final String username);
+    Optional<Client> findByEmail(final String email);
 
     void deleteByUid(final String uid);
 }

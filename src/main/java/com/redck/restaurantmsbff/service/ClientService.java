@@ -1,6 +1,7 @@
 package com.redck.restaurantmsbff.service;
 
 import com.redck.restaurantmsbff.domain.Client;
+import com.redck.restaurantmsbff.logging.UserNotFoundException;
 import com.redck.restaurantmsbff.logging.enumeration.LogTag;
 import com.redck.restaurantmsbff.repository.ClientRepository;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ public class ClientService
 {
 
     private static final String DEFAULT_PICTURE = "empty";
-    private static final String DEFAULT_ROLE = "USER";
+    private static final String DEFAULT_ROLE = "ROLE_USER";
     private static final Logger logger = LoggerFactory.getLogger(ClientService.class);
 
     private final ClientRepository clientRepository;
@@ -37,10 +38,14 @@ public class ClientService
      */
     public Client createUser(final Client client)
     {
-        final Optional<Client> userOptional = clientRepository.findByUid(client.getUid());
+        //final Optional<Client> userOptional = clientRepository.findByUid(client.getUid());
+        final Optional<Client> userOptional = clientRepository.findByUsername(client.getUsername());
+        final Optional<Client> userByEmail = clientRepository.findByEmail(client.getEmail());
 
-        System.out.println("USER: " + userOptional.isEmpty());
-        if(userOptional.isEmpty())
+        //System.out.println("USER: " + username);
+        System.out.println("USER: " + userOptional);
+        //userOptional.isEmpty()
+        if(userOptional.isEmpty() && userByEmail.isEmpty())
         {
             logger.info(MDC.get("correlationId"), Arrays.asList(LogTag.USERS, LogTag.PERSISTED),
                     "Create User: " + client.toString());
@@ -107,14 +112,76 @@ public class ClientService
         logger.info(MDC.get("correlationId"),  Arrays.asList(LogTag.USERS, LogTag.EDITED),
                 "Edit User by id " + userId);
 
+        // Check and update each field only if it's not null in the clientToEdit
+        if(clientToEdit.getUsername() == null)
+        {
+            logger.debug("Didn't want to change the username");
+            clientToEdit.username(userOptional.get().getUsername());
+        }
+
+        if(clientToEdit.getEmail() == null)
+        {
+            logger.debug("Didn't want to change the email");
+            clientToEdit.email(userOptional.get().getEmail());
+        }
+
+        if(clientToEdit.getPassword() == null)
+        {
+            logger.debug("Didn't want to change the password");
+            clientToEdit.password(userOptional.get().getPassword());
+        }
+
+        if(clientToEdit.getRole() == null)
+        {
+            logger.debug("Didn't want to change the role");
+            clientToEdit.role(userOptional.get().getRole());
+        }
+
+        if(clientToEdit.getName() == null)
+        {
+            logger.debug("Didn't want to change the name");
+            clientToEdit.name(userOptional.get().getName());
+        }
+
+        if(clientToEdit.getPicture() == null)
+        {
+            logger.debug("Didn't want to change the picture");
+            clientToEdit.picture(userOptional.get().getPicture());
+        }
+
         userOptional.get()
                 .username(clientToEdit.getUsername())
+                .role(clientToEdit.getRole())
                 .email(clientToEdit.getEmail())
                 .password(clientToEdit.getPassword())
                 .name(clientToEdit.getName())
                 .picture(clientToEdit.getPicture());
 
         return clientRepository.save(userOptional.get());
+    }
+
+    public void updateRefreshToken(String username, String refreshToken)
+    {
+        Optional<Client> userOptional = clientRepository.findByUsername(username);
+        if(!userOptional.isEmpty())
+        {
+            Client user = userOptional.get();
+            System.out.println("🔹 Found user: " + user);
+            System.out.println("🔹 Updating refresh token to: " + refreshToken);
+
+            if (refreshToken != null && !refreshToken.isEmpty()) {
+                user.setRefreshToken(refreshToken);
+                System.out.println("USER AFTER LOG IN: " + user);
+                clientRepository.save(user);
+                logger.info("Successfully updated refresh token for user: {}", username);
+            } else {
+                logger.warn("Received null or empty refresh token for user: {}", username);
+            }
+        }
+        else
+        {
+            throw new UserNotFoundException("User not found: " + username);
+        }
     }
 
     /**
@@ -131,7 +198,18 @@ public class ClientService
         logger.info(MDC.get("correlationId"), Arrays.asList(LogTag.USERS, LogTag.DELETED),
                 "Delete User by id: " + userId);
 
-        return "User " + userOptional.get().getUsername() + "was deleted";
+        return "User " + userOptional.get().getUsername() + " was deleted";
+    }
+
+    public Client getUserByUsername(final String username)
+    {
+        final Optional<Client> userOptional = clientRepository.findByUsername(username);
+
+        if(userOptional.isEmpty())
+        {
+            throw new NullPointerException("No user found");
+        }
+        return userOptional.get();
     }
 
     /**
@@ -143,7 +221,7 @@ public class ClientService
     private Optional<Client> getUserById(final String userId, final String exceptionMessage)
     {
         final Optional<Client> userOptional = clientRepository.findByUid(userId);
-        System.out.println("ESTA VAZIO: " + userOptional.isEmpty());
+
         if(userOptional.isEmpty())
         {
             throw new NullPointerException(exceptionMessage);

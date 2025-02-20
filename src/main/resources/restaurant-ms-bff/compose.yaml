@@ -1,0 +1,22 @@
+services:
+  usersdb:
+    image:  postgres:latest
+    container_name: usersDatabase
+    environment:
+      POSTGRES_USER: users
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: usersdb
+    ports:
+      - "5432:5432"
+
+
+  redck-restaurant-ms-bff:
+    build:
+      context: /restaurant-ms-bff
+      dockerfile: Dockerfile
+    container_name: restaurant-ms-bff
+    image: redck-restaurant-ms-bff.jar
+    ports:
+      - "8282:8282"
+    depends_on:
+      - usersdb

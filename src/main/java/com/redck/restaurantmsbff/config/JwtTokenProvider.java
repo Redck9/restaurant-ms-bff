@@ -1,10 +1,9 @@
 package com.redck.restaurantmsbff.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.Jwts;
 
 import java.util.Date;
 
@@ -17,6 +16,9 @@ public class JwtTokenProvider
     @Value("${jwt.expiration}")
     private int jwtExpiration;
 
+    @Value("${jwt.refreshExpiration}")
+    private int refreshExpiration;
+
     public String generateToken(String username) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpiration * 1000L);
@@ -26,6 +28,27 @@ public class JwtTokenProvider
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
+    }
+
+    public String generateRefreshToken(String username) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + refreshExpiration * 1000L);
+
+        return Jwts.builder().setSubject(username)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
+
+    public String getTokenFromRequest(HttpServletRequest request)
+    {
+        String bearerToken = request.getHeader("Authorization");
+        if(bearerToken != null && bearerToken.startsWith("Bearer "))
+        {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     public String getUsernameFromToken(String token) {
@@ -41,8 +64,17 @@ public class JwtTokenProvider
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        catch (ExpiredJwtException e) {
+            System.out.println("Token expired: " + e.getMessage());
+        }
+        catch (MalformedJwtException e)
+        {
+            System.out.println("Invalid token: " + e.getMessage());
+        }
+        catch (Exception e) {
+            System.out.println("Token validation error: " + e.getMessage());
+        }
+        return false;
     }
 }

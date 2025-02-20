@@ -2,6 +2,8 @@ package com.redck.restaurantmsbff.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -23,18 +25,19 @@ public class Client
     @Column(name = "uid", unique = true)
     private String uid;
 
-
+    @NotBlank(message = "Username is required")
     @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "role")
     private String role;
 
-
-    @Column(name = "email")
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email is required")
+    @Column(name = "email", unique = true)
     private String email;
 
-
+    @NotBlank(message = "Password is required")
     @Column(name = "password")
     private String password;
 
@@ -43,6 +46,9 @@ public class Client
 
     @Column(name = "picture")
     private String picture;
+
+    @Column(name = "refreshToken", length = 2048)
+    private String refreshToken;
 
     public long getId() {
         return id;
@@ -273,6 +279,21 @@ public class Client
         return this;
     }
 
+    // Getters and setters
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    // Add a fluent setter for chaining
+    public Client refreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+        return this;
+    }
+
     @Override
     public String toString()
     {
@@ -284,6 +305,7 @@ public class Client
                 ", password = " + password +
                 ", name = " + name +
                 ", picture = " + picture +
+                ", refresh token = " + refreshToken +
                 " }";
     }
 }

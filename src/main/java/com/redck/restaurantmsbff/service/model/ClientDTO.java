@@ -35,6 +35,25 @@ public class ClientDTO implements Serializable {
     @JsonProperty("password")
     private String password;
 
+    @JsonProperty("refreshToken")
+    private String refreshToken;
+
+    public String getRefreshToken()
+    {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken)
+    {
+        this.refreshToken = refreshToken;
+    }
+
+    public ClientDTO refreshToken(final String refreshToken)
+    {
+        this.refreshToken = refreshToken;
+        return this;
+    }
+
     /**
      * User Get id.
      * @return user id.
