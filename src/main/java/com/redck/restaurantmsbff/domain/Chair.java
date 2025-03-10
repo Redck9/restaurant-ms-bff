@@ -8,7 +8,13 @@ public class Chair
 
     private String chairUid;
 
-    private boolean occupied;
+    private Boolean occupied;
+
+    private double xPosition;
+
+    private double yPosition;
+
+    private double angle;
 
     /**
      * Get Chair id.
@@ -97,19 +103,100 @@ public class Chair
         return this;
     }
 
-    public boolean isOccupied()
+    public Boolean isOccupied()
     {
         return occupied;
     }
 
-    public void setOccupied(boolean occupied)
+    public void setOccupied(Boolean occupied)
     {
         this.occupied = occupied;
     }
 
-    public Chair occupied(final boolean occupied)
+    public Chair occupied(final Boolean occupied)
     {
         this.occupied = occupied;
+        return this;
+    }
+
+    /**
+     * Get Chair xPosition.
+     * @return Chair xPosition.
+     */
+    public double getxPosition() {
+        return xPosition;
+    }
+
+    /**
+     * Set Chair xPosition
+     * @param xPosition chair xPosition.
+     */
+    public void setxPosition(double xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    /**
+     * Builder Chair for xPosition.
+     * @param xPosition xPosition to build.
+     * @return Chair with xPosition.
+     */
+    public Chair xPosition(final double xPosition)
+    {
+        this.xPosition = xPosition;
+        return this;
+    }
+
+    /**
+     * Get Chair yPosition.
+     * @return Chair yPosition.
+     */
+    public double getyPosition() {
+        return yPosition;
+    }
+
+    /**
+     * Set Chair yPosition
+     * @param yPosition chair yPosition.
+     */
+    public void setyPosition(double yPosition) {
+        this.yPosition = yPosition;
+    }
+
+    /**
+     * Builder Chair for yPosition.
+     * @param yPosition yPosition to build.
+     * @return Chair with yPosition.
+     */
+    public Chair yPosition(final double yPosition)
+    {
+        this.yPosition = yPosition;
+        return this;
+    }
+
+    /**
+     * Get Chair angle.
+     * @return Chair angle.
+     */
+    public double getAngle() {
+        return angle;
+    }
+
+    /**
+     * Set Chair angle
+     * @param angle Chair angle.
+     */
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+
+    /**
+     * Builder Chair for angle.
+     * @param angle angle to build.
+     * @return Chair with angle.
+     */
+    public Chair angle(final double angle)
+    {
+        this.angle = angle;
         return this;
     }
 
@@ -121,6 +208,9 @@ public class Chair
                 ", tableUid = " + tableUid +
                 ", chairUid = " + chairUid +
                 ", occupied = " + occupied +
+                ", xPosition = " + xPosition +
+                ", yPosition = " + yPosition +
+                ", angle = " + angle +
                 " }";
     }
 }

@@ -8,5 +8,7 @@ public enum LogTag {
     EDITED,
     CLIENT,
     RESTAURANTS,
+    MENU,
+    SCHEDULE,
     TABLES
 }

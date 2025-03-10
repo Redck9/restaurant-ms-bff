@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.redck.restaurantmsbff.domain.Client;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * User class.
@@ -38,16 +39,61 @@ public class ClientDTO implements Serializable {
     @JsonProperty("refreshToken")
     private String refreshToken;
 
+    @JsonProperty("favoriteRestaurants")
+    private List<String> favoriteRestaurants;
+
+    /**
+     * User Get favorite restaurants.
+     * @return user favorite restaurants.
+     */
+    public List<String> getFavoriteRestaurants()
+    {
+        return favoriteRestaurants;
+    }
+
+    /**
+     * User Set favorite restaurants.
+     * @param favoriteRestaurants user favorite restaurants;
+     */
+    public void setFavoriteRestaurants(List<String> favoriteRestaurants)
+    {
+        this.favoriteRestaurants = favoriteRestaurants;
+    }
+
+    /**
+     * Builder ClientDTO for favorite restaurants.
+     * @param favoriteRestaurants favorite restaurants to build.
+     * @return ClientDTO with favorite restaurants.
+     */
+    public ClientDTO favoriteRestaurants(final List<String> favoriteRestaurants)
+    {
+        this.favoriteRestaurants = favoriteRestaurants;
+        return this;
+    }
+
+    /**
+     * User Get refresh token.
+     * @return user refresh token.
+     */
     public String getRefreshToken()
     {
         return refreshToken;
     }
 
+    /**
+     * User Set refresh token.
+     * @param refreshToken user refresh token;
+     */
     public void setRefreshToken(String refreshToken)
     {
         this.refreshToken = refreshToken;
     }
 
+    /**
+     * Builder ClientDTO for refresh token.
+     * @param refreshToken refresh token to build.
+     * @return ClientDTO with refresh token.
+     */
     public ClientDTO refreshToken(final String refreshToken)
     {
         this.refreshToken = refreshToken;

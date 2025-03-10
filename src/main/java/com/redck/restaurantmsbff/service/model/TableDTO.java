@@ -18,6 +18,21 @@ public class TableDTO implements Serializable
     @JsonProperty("chairsCapacity")
     private int chairsCapacity;
 
+    @JsonProperty("xPosition")
+    private double xPosition;
+
+    @JsonProperty("yPosition")
+    private double yPosition;
+
+    @JsonProperty("angle")
+    private double angle;
+
+    @JsonProperty("width")
+    private double width;
+
+    @JsonProperty("height")
+    private double height;
+
     /**
      * Get TableDTO id.
      * @return TableDTO id.
@@ -130,14 +145,155 @@ public class TableDTO implements Serializable
         return this;
     }
 
+    /**
+     * Get TableDTO xPosition.
+     * @return TableDTO xPosition.
+     */
+    public double getxPosition() {
+        return xPosition;
+    }
+
+    /**
+     * Set TableDTO xPosition
+     * @param xPosition TableDTO xPosition.
+     */
+    public void setxPosition(double xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    /**
+     * Builder TableDTO for xPosition.
+     * @param xPosition xPosition to build.
+     * @return TableDTO with xPosition.
+     */
+    public TableDTO xPosition(final double xPosition)
+    {
+        this.xPosition = xPosition;
+        return this;
+    }
+
+    /**
+     * Get TableDTO yPosition.
+     * @return TableDTO yPosition.
+     */
+    public double getyPosition() {
+        return yPosition;
+    }
+
+    /**
+     * Set TableDTO yPosition
+     * @param yPosition TableDTO yPosition.
+     */
+    public void setyPosition(double yPosition) {
+        this.yPosition = yPosition;
+    }
+
+    /**
+     * Builder TableDTO for yPosition.
+     * @param yPosition yPosition to build.
+     * @return TableDTO with yPosition.
+     */
+    public TableDTO yPosition(final double yPosition)
+    {
+        this.yPosition = yPosition;
+        return this;
+    }
+
+    /**
+     * Get TableDTO angle.
+     * @return TableDTO angle.
+     */
+    public double getAngle() {
+        return angle;
+    }
+
+    /**
+     * Set TableDTO angle
+     * @param angle TableDTO angle.
+     */
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+
+    /**
+     * Builder TableDTO for angle.
+     * @param angle angle to build.
+     * @return TableDTO with angle.
+     */
+    public TableDTO angle(final double angle)
+    {
+        this.angle = angle;
+        return this;
+    }
+
+    /**
+     * Get TableDTO width.
+     * @return TableDTO width.
+     */
+    public double getWidth() {
+        return width;
+    }
+
+    /**
+     * Set TableDTO width
+     * @param width TableDTO width.
+     */
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    /**
+     * Builder TableDTO for width.
+     * @param width width to build.
+     * @return TableDTO with width.
+     */
+    public TableDTO width(final double width)
+    {
+        this.width = width;
+        return this;
+    }
+
+    /**
+     * Get TableDTO height.
+     * @return TableDTO height.
+     */
+    public double getHeight() {
+        return height;
+    }
+
+    /**
+     * Set TableDTO height
+     * @param height TableDTO height.
+     */
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    /**
+     * Builder TableDTO for height.
+     * @param height height to build.
+     * @return TableDTO with height.
+     */
+    public TableDTO height(final double height)
+    {
+        this.height = height;
+        return this;
+    }
+
+
     @Override
     public String toString()
     {
-        return "Table {" +
+        return "TableDTO {" +
                 "tableId = " + tableId +
                 ", restaurantUid = " + restaurantUid +
                 ", tableUid = " + tableUid +
                 ", chairsCapacity = " + chairsCapacity +
+                ", xPosition = " + xPosition +
+                ", yPosition = " + yPosition +
+                ", angle = " + angle +
+                ", width = " + width +
+                ", height = " + height +
                 " }";
     }
 

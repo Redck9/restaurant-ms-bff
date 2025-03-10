@@ -10,6 +10,16 @@ public class Table
 
     private int chairsCapacity;
 
+    private double xPosition;
+
+    private double yPosition;
+
+    private double angle;
+
+    private double width;
+
+    private double height;
+
 
     /**
      * Get Table id.
@@ -130,6 +140,142 @@ public class Table
         return this;
     }
 
+    /**
+     * Get Table xPosition.
+     * @return Table xPosition.
+     */
+    public double getxPosition() {
+        return xPosition;
+    }
+
+    /**
+     * Set Table xPosition
+     * @param xPosition Table xPosition.
+     */
+    public void setxPosition(double xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    /**
+     * Builder Table for xPosition.
+     * @param xPosition xPosition to build.
+     * @return Table with xPosition.
+     */
+    public Table xPosition(final double xPosition)
+    {
+        this.xPosition = xPosition;
+        return this;
+    }
+
+    /**
+     * Get Table yPosition.
+     * @return Table yPosition.
+     */
+    public double getyPosition() {
+        return yPosition;
+    }
+
+    /**
+     * Set Table yPosition
+     * @param yPosition Table yPosition.
+     */
+    public void setyPosition(double yPosition) {
+        this.yPosition = yPosition;
+    }
+
+    /**
+     * Builder Table for yPosition.
+     * @param yPosition yPosition to build.
+     * @return Table with yPosition.
+     */
+    public Table yPosition(final double yPosition)
+    {
+        this.yPosition = yPosition;
+        return this;
+    }
+
+    /**
+     * Get Table angle.
+     * @return Table angle.
+     */
+    public double getAngle() {
+        return angle;
+    }
+
+    /**
+     * Set Table angle
+     * @param angle Table angle.
+     */
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+
+    /**
+     * Builder Table for angle.
+     * @param angle angle to build.
+     * @return Table with angle.
+     */
+    public Table angle(final double angle)
+    {
+        this.angle = angle;
+        return this;
+    }
+
+    /**
+     * Get Table width.
+     * @return Table width.
+     */
+    public double getWidth() {
+        return width;
+    }
+
+    /**
+     * Set Table width
+     * @param width Table width.
+     */
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    /**
+     * Builder Table for width.
+     * @param width width to build.
+     * @return Table with width.
+     */
+    public Table width(final double width)
+    {
+        this.width = width;
+        return this;
+    }
+
+    /**
+     * Get Table height.
+     * @return Table height.
+     */
+    public double getHeight() {
+        return height;
+    }
+
+    /**
+     * Set Table height
+     * @param height Table height.
+     */
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    /**
+     * Builder Table for height.
+     * @param height height to build.
+     * @return Table with height.
+     */
+    public Table height(final double height)
+    {
+        this.height = height;
+        return this;
+    }
+
+
     @Override
     public String toString()
     {
@@ -138,6 +284,11 @@ public class Table
                 ", restaurantUid = " + restaurantUid +
                 ", tableUid = " + tableUid +
                 ", chairsCapacity = " + chairsCapacity +
+                ", xPosition = " + xPosition +
+                ", yPosition = " + yPosition +
+                ", angle = " + angle +
+                ", width = " + width +
+                ", height = " + height +
                 " }";
     }
 }

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -36,6 +37,9 @@ public class ClientController implements ApiController
     private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
 
     public static final String USER_USER_ID = "/user/{userId}";
+    public static final String USER_USER_USERNAME = "/user/{username}";
+    public static final String USER_FAVORITE_RESTAURANT = "/user/{userId}/favorites/{restaurantUid}";
+    public static final String USER_FAVORITE_RESTAURANTS = "/user/{userId}/favorites";
     private final ClientService clientService;
     private final ClientMapper clientMapper;
 
@@ -116,14 +120,25 @@ public class ClientController implements ApiController
 
             Object principal = authenticated.getPrincipal();
             String username;
+            String userUid;
 
             if (principal instanceof Client)
             {
                 username = ((Client) principal).getUsername(); // Fix: Get username from Client object
+                userUid = ((Client) principal).getUid();
             }
             else
             {
                 username = authenticated.getName(); // Default behavior
+                Object user = authenticated.getPrincipal();
+                if(user instanceof Client)
+                {
+                    userUid = ((Client) user).getUid();
+                }
+                else
+                {
+                    userUid = "";
+                }
             }
             System.out.println("NAME!!!!!!!!!: " + username);
 
@@ -147,6 +162,7 @@ public class ClientController implements ApiController
                 Map<String, String> response = new HashMap<>();
                 response.put("accessToken", accessToken);
                 response.put("refreshToken", refreshToken);
+                response.put("userUid", userUid);
 
                 return ResponseEntity.ok(response);
             }
@@ -302,6 +318,27 @@ public class ClientController implements ApiController
     {
         logger.info("Deleting user with ID: {}", userId);
         return ResponseEntity.ok(clientService.deleteUser(userId));
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PostMapping(value = USER_FAVORITE_RESTAURANT)
+    public ResponseEntity<ClientDTO> addFavoriteRestaurant(@PathVariable String userId, @PathVariable String restaurantUid)
+    {
+        return ResponseEntity.ok(clientMapper.mapClientToClientDTO(clientService.addFavoriteRestaurant(userId, restaurantUid)));
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @DeleteMapping(value = USER_FAVORITE_RESTAURANT)
+    public ResponseEntity<ClientDTO> removeFavoriteRestaurant(@PathVariable String userId, @PathVariable String restaurantUid)
+    {
+        return ResponseEntity.ok(clientMapper.mapClientToClientDTO(clientService.removeFavoriteRestaurant(userId, restaurantUid)));
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @GetMapping(value = USER_FAVORITE_RESTAURANTS)
+    public List<String> getFavoriteRestaurants(@PathVariable String userId)
+    {
+        return clientService.getFavoriteRestaurants(userId);
     }
 
 }

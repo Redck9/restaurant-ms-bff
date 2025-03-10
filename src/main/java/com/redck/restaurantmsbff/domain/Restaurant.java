@@ -1,7 +1,8 @@
 package com.redck.restaurantmsbff.domain;
 
-public class Restaurant
-{
+import java.util.List;
+
+public class Restaurant {
 
     private long id;
 
@@ -9,9 +10,23 @@ public class Restaurant
 
     private String name;
 
+    private String type;
+
     private String location;
 
     private int tablesCapacity;
+
+    private String description;
+
+    private String userUid;
+
+    private List<Schedule> schedule;
+
+    private List<MenuItem> menuItem;
+
+    private String url;
+
+    //private byte[] schedule;
 
     /**
      * Get Restaurant id.
@@ -100,6 +115,22 @@ public class Restaurant
         return this;
     }
 
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
+    public Restaurant type(final String type)
+    {
+        this.type = type;
+        return this;
+    }
+
     /**
      * Get Restaurant location.
      * @return Restaurant location.
@@ -129,6 +160,21 @@ public class Restaurant
         return this;
     }
 
+    /*
+        public byte[] getSchedule()
+        {
+            return schedule;
+        }
+
+        public void setSchedule(byte[] schedule)
+        {
+            this.schedule = schedule;
+        }
+
+        public Restaurant schedule(final)
+
+    */
+
     /**
      * Get Restaurant tablesCapacity.
      * @return Restaurant tablesCapacity.
@@ -156,6 +202,99 @@ public class Restaurant
         return this;
     }
 
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public Restaurant description(final String description)
+    {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Get Restaurant userUid.
+     * @return restaurant userUid.
+     */
+    public String getUserUid()
+    {
+        return userUid;
+    }
+
+    /**
+     * Set Restaurant userUid.
+     * @param userUid restaurant userUid.
+     */
+    public void setUserUid(String userUid)
+    {
+        this.userUid = userUid;
+    }
+
+    /**
+     * Builder Restaurant for userUid.
+     * @param userUid userUid to build.
+     * @return Restaurant with userUid.
+     */
+    public Restaurant userUid(final String userUid)
+    {
+        this.userUid = userUid;
+        return this;
+    }
+
+    public List<Schedule> getSchedule()
+    {
+        return schedule;
+    }
+
+    public void setSchedule(List<Schedule> schedule)
+    {
+        this.schedule = schedule;
+    }
+
+    public Restaurant schedule(final List<Schedule> schedule)
+    {
+        this.schedule = schedule;
+        return this;
+    }
+
+    public List<MenuItem> getMenuItem()
+    {
+        return menuItem;
+    }
+
+    public void setMenuItem(List<MenuItem> menuItem)
+    {
+        this.menuItem = menuItem;
+    }
+
+    public Restaurant menuItem(final List<MenuItem> menuItem)
+    {
+        this.menuItem = menuItem;
+        return this;
+    }
+
+    public String getUrl()
+    {
+        return url;
+    }
+
+    public void setUrl(String url)
+    {
+        this.url = url;
+    }
+
+    public Restaurant url(final String url)
+    {
+        this.url = url;
+        return this;
+    }
+
     @Override
     public String toString()
     {
@@ -163,8 +302,14 @@ public class Restaurant
                 "id = " + id +
                 ", uid = " + uid +
                 ", name = " + name +
+                ", type = " + type +
                 ", location = " + location +
                 ", tablesCapacity = " + tablesCapacity +
+                ", description = " + description +
+                ", schedule = " + schedule +
+                ", menuItem = " + menuItem +
+                ", userUid = " + userUid +
+                ", url = " + url +
                 " }";
     }
 }

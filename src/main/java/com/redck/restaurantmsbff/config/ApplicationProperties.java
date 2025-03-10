@@ -19,7 +19,7 @@ public class ApplicationProperties
     public static class MsManager
     {
 
-        private String url = "http://192.168.1.40:8181/restaurant/manager";
+        private String url = "http://192.168.1.44:8181/restaurant/manager";
 
         /**
          * Get Ms Manager Url.

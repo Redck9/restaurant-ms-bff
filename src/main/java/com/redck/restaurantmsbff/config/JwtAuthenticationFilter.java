@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
     {
 
-        if (request.getRequestURI().startsWith("/api/login")) {
+        if (request.getRequestURI().startsWith("/api/login") || request.getRequestURI().startsWith("/api/register")) {
             filterChain.doFilter(request, response); // Continue the filter chain
             return;
         }
@@ -83,7 +83,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
                 authorities  // Assuming Client implements UserDetails or has a method for roles
         );
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        return authentication;
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 }

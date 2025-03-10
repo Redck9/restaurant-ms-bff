@@ -10,9 +10,7 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ClientService
@@ -78,6 +76,11 @@ public class ClientService
         if(client.getRole() == null)
         {
             client.role(DEFAULT_ROLE);
+        }
+
+        if(client.getFavoriteRestaurants() == null)
+        {
+            client.favoriteRestaurants(new ArrayList<>());
         }
 
         return client;
@@ -227,6 +230,78 @@ public class ClientService
             throw new NullPointerException(exceptionMessage);
         }
         return userOptional;
+    }
+
+    /**
+     * Add favorite restaurant.
+     * @param userUid user uid.
+     * @param restaurantUid restaurant uid to add to the list
+     * @return Client.
+     */
+    public Client addFavoriteRestaurant(String userUid, String restaurantUid )
+    {
+        Optional<Client> userOptional = getUserById(userUid, "User to be deleted does not exists!!");
+
+        if(userOptional.isEmpty())
+        {
+            throw new RuntimeException("User not found!");
+        }
+
+        Client client = userOptional.get();
+        List<String> favoriteRestaurants = client.getFavoriteRestaurants();
+        if(!favoriteRestaurants.contains(restaurantUid))
+        {
+            favoriteRestaurants.add(restaurantUid);
+            client.setFavoriteRestaurants(favoriteRestaurants);
+            clientRepository.save(client);
+        }
+
+        return client;
+    }
+
+    /**
+     * Delete favorite restaurant by user uid and restaurant uid.
+     * @param userUid user id to get the list of favorite restaurants.
+     * @param restaurantUid restaurant uid to remove from favorite restaurants
+     * @return client.
+     */
+    public Client removeFavoriteRestaurant(String userUid, String restaurantUid)
+    {
+        Optional<Client> userOptional = getUserById(userUid, "User to be deleted does not exists!!");
+
+        if(userOptional.isEmpty())
+        {
+            throw new RuntimeException("User not found!");
+        }
+
+        Client client = userOptional.get();
+        List<String> favoriteRestaurants = client.getFavoriteRestaurants();
+        if(favoriteRestaurants.contains(restaurantUid))
+        {
+            favoriteRestaurants.remove(restaurantUid);
+            client.setFavoriteRestaurants(favoriteRestaurants);
+            clientRepository.save(client);
+        }
+
+        return client;
+    }
+
+    /**
+     * Get list of favorite restaurants.
+     * @param userUid user uid.
+     * @return List of favorite restaurants.
+     */
+    public List<String> getFavoriteRestaurants(String userUid)
+    {
+        Optional<Client> userOptional = getUserById(userUid, "User to be deleted does not exists!!");
+
+        if(userOptional.isEmpty())
+        {
+            throw new RuntimeException("User not found!!");
+        }
+
+        Client client = userOptional.get();
+        return client.getFavoriteRestaurants();
     }
 
 

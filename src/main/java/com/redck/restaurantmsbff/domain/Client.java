@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import java.util.List;
+
 @Entity
 //@Table(name = "clients")
 public class Client
@@ -49,6 +51,9 @@ public class Client
 
     @Column(name = "refreshToken", length = 2048)
     private String refreshToken;
+
+    @Column(name = "favoriteRestaurants")
+    private List<String> favoriteRestaurants;
 
     public long getId() {
         return id;
@@ -293,6 +298,36 @@ public class Client
         this.refreshToken = refreshToken;
         return this;
     }
+
+    /**
+     * User get list of favorite restaurants
+     * @return list of favorite restaurants
+     */
+    public List<String> getFavoriteRestaurants()
+    {
+        return favoriteRestaurants;
+    }
+
+    /**
+     * User Set favorite restaurants
+     * @param favoriteRestaurants favorite restaurants
+     */
+    public void setFavoriteRestaurants(List<String> favoriteRestaurants)
+    {
+        this.favoriteRestaurants = favoriteRestaurants;
+    }
+
+    /**
+     * Builder for favorite restaurants
+     * @param favoriteRestaurants favorite restaurants
+     * @return favorite restaurants
+     */
+    public Client favoriteRestaurants(List<String> favoriteRestaurants)
+    {
+        this.favoriteRestaurants = favoriteRestaurants;
+        return this;
+    }
+
 
     @Override
     public String toString()
