@@ -19,22 +19,22 @@ public class JwtTokenProvider
     @Value("${jwt.refreshExpiration}")
     private int refreshExpiration;
 
-    public String generateToken(String username) {
+    public String generateToken(String userUid) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpiration * 1000L);
 
-        return Jwts.builder().setSubject(username)
+        return Jwts.builder().setSubject(userUid)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
-    public String generateRefreshToken(String username) {
+    public String generateRefreshToken(String userUid) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + refreshExpiration * 1000L);
 
-        return Jwts.builder().setSubject(username)
+        return Jwts.builder().setSubject(userUid)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -51,7 +51,7 @@ public class JwtTokenProvider
         return null;
     }
 
-    public String getUsernameFromToken(String token) {
+    public String getUserUidFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)

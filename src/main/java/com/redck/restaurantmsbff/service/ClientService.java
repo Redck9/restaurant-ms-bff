@@ -163,9 +163,9 @@ public class ClientService
         return clientRepository.save(userOptional.get());
     }
 
-    public void updateRefreshToken(String username, String refreshToken)
+    public void updateRefreshToken(String userUid, String refreshToken)
     {
-        Optional<Client> userOptional = clientRepository.findByUsername(username);
+        Optional<Client> userOptional = clientRepository.findByUid(userUid);
         if(!userOptional.isEmpty())
         {
             Client user = userOptional.get();
@@ -176,14 +176,14 @@ public class ClientService
                 user.setRefreshToken(refreshToken);
                 System.out.println("USER AFTER LOG IN: " + user);
                 clientRepository.save(user);
-                logger.info("Successfully updated refresh token for user: {}", username);
+                logger.info("Successfully updated refresh token for user: {}", user.getUsername());
             } else {
-                logger.warn("Received null or empty refresh token for user: {}", username);
+                logger.warn("Received null or empty refresh token for user: {}", user.getUsername());
             }
         }
         else
         {
-            throw new UserNotFoundException("User not found: " + username);
+            throw new UserNotFoundException("User not found: " + userUid);
         }
     }
 
@@ -221,7 +221,7 @@ public class ClientService
      * @param exceptionMessage exception Message
      * @return Optional of User
      */
-    private Optional<Client> getUserById(final String userId, final String exceptionMessage)
+    public Optional<Client> getUserById(final String userId, final String exceptionMessage)
     {
         final Optional<Client> userOptional = clientRepository.findByUid(userId);
 

@@ -36,6 +36,8 @@ dependencies {
 	implementation("org.springframework.security:spring-security-web:6.2.1")
 	implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.springframework.boot:spring-boot-starter-mail:3.4.2")
+	implementation("jakarta.mail:jakarta.mail-api:2.1.3")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 }
 

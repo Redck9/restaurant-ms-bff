@@ -140,20 +140,20 @@ public class ClientController implements ApiController
                     userUid = "";
                 }
             }
-            System.out.println("NAME!!!!!!!!!: " + username);
+            //System.out.println("NAME!!!!!!!!!: " + username);
 
             if(authenticated != null)
             {
 
                 SecurityContextHolder.getContext().setAuthentication(authenticated);
 
-                String accessToken = generateToken(username);
-                String refreshToken = generateRefreshToken(username);
+                String accessToken = generateToken(userUid);
+                String refreshToken = generateRefreshToken(userUid);
 
                 System.out.println("ACCESS TOKEN: " + accessToken);
                 System.out.println("REFRESH TOKEN: " + refreshToken);
 
-                clientService.updateRefreshToken(username, refreshToken);
+                clientService.updateRefreshToken(userUid, refreshToken);
 
                 // Authentication successful, return token
                 logger.info("ACCESS TOKEN: {}", accessToken);
@@ -199,11 +199,11 @@ public class ClientController implements ApiController
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid refresh token"));
             }
 
-            String username = jwtTokenProvider.getUsernameFromToken(refreshToken);
-            String newAccessToken = jwtTokenProvider.generateToken(username);
-            String newRefreshToken = jwtTokenProvider.generateRefreshToken(username);
+            String userUid = jwtTokenProvider.getUserUidFromToken(refreshToken);
+            String newAccessToken = jwtTokenProvider.generateToken(userUid);
+            String newRefreshToken = jwtTokenProvider.generateRefreshToken(userUid);
 
-            clientService.updateRefreshToken(username, newRefreshToken);
+            clientService.updateRefreshToken(userUid, newRefreshToken);
 
             return ResponseEntity.ok(Map.of("accessToken", newAccessToken));
         } catch (ExpiredJwtException e)
@@ -213,14 +213,14 @@ public class ClientController implements ApiController
 
     }
 
-    private String generateRefreshToken(String username)
+    private String generateRefreshToken(String userUid)
     {
-        return jwtTokenProvider.generateRefreshToken(username);
+        return jwtTokenProvider.generateRefreshToken(userUid);
     }
 
-    private String generateToken(String username)
+    private String generateToken(String userUid)
     {
-        return jwtTokenProvider.generateToken(username);
+        return jwtTokenProvider.generateToken(userUid);
     }
 
     /**

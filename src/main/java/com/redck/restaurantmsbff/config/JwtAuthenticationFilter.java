@@ -47,8 +47,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
 
         if(token != null && jwtTokenProvider.validateToken(token))
         {
-            String username = jwtTokenProvider.getUsernameFromToken(token);
-            Client client = clientService.getUserByUsername(username);
+            String userUid = jwtTokenProvider.getUserUidFromToken(token);
+            Client client = clientService.getUser(userUid);
             System.out.println("Client fetched: " + client);
             if (client != null) {
                 UsernamePasswordAuthenticationToken authentication = getUsernamePasswordAuthenticationToken(client);
@@ -59,7 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
             }
             else
             {
-                System.out.println("Client not found for username: " + username);
+                System.out.println("Client not found for userUid: " + userUid);
             }
 
 
