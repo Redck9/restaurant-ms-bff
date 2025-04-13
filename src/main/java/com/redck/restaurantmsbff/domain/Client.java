@@ -280,7 +280,15 @@ public class Client
      */
     public Client password(final String password)
     {
-        this.password = password;
+        if (!password.startsWith("$2a$")) // Check if password is already encoded
+        {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            this.password = encoder.encode(password);
+        }
+        else
+        {
+            this.password = password;
+        }
         return this;
     }
 
